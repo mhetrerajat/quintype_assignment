@@ -1,10 +1,10 @@
 """
-	This modules has functions bind to particular route. Making request
-	for that route will excute those functions and returns appropriate results.
-	Route mentioned for function is just half URI i.e. it exculdes hostname.
+    This modules has functions bind to particular route. Making request
+    for that route will excute those functions and returns appropriate results.
+    Route mentioned for function is just half URI i.e. it exculdes hostname.
 
-	Attributes:
-		LAT_LNG_RANGE (list) : List of all possible values for latitude and longitude.
+    Attributes:
+        LAT_LNG_RANGE (list) : List of all possible values for latitude and longitude.
 
 """
 from datetime import datetime
@@ -16,15 +16,15 @@ LAT_LNG_RANGE = list(range(-180, 181))
 
 
 def get_bool(input_string):
-	"""
-		This function takes string and gives its corresponding boolean value.
-		If given input is false then it returns False
+    """
+        This function takes string and gives its corresponding boolean value.
+        If given input is false then it returns False
 
-		Return: Boolean
+        Return: Boolean
 
-		Args:
-			input_string (str) : Any string 
-	"""
+        Args:
+            input_string (str) : Any string 
+    """
     if isinstance(input_string, str):
         if input_string.lower() == 'false':
             return False
@@ -36,48 +36,48 @@ def get_bool(input_string):
 
 @app.route("/")
 def hello():
-	"""
-		Just sample function bound with route '/'.
+    """
+        Just sample function bound with route '/'.
 
-		Return:
-			{
-				'message' : 'Welcome to fuber.'
-			}
-	"""
+        Return:
+            {
+                'message' : 'Welcome to fuber.'
+            }
+    """
     return jsonify({'message': 'Welcome to fuber.'})
 
 
 @app.route("/car/<int:car_id>", methods=['GET'])
 def get_car_details(car_id):
-	"""
-		Gives details about particular car. Function bound with route '/car/<car_id>'
-		and only GET method is allowed.
+    """
+        Gives details about particular car. Function bound with route '/car/<car_id>'
+        and only GET method is allowed.
 
-		Args:
-			car_id (int) : its the unique id of car
+        Args:
+            car_id (int) : its the unique id of car
 
-		Return:
-			Instance of Car class serialized in json.
-	"""
+        Return:
+            Instance of Car class serialized in json.
+    """
     car = Car.query.filter_by(id=car_id).first()
     return jsonify({'result': car.serialize()})
 
 
 @app.route("/car", methods=['GET'])
 def get_cars():
-	"""
-		Gives list of cars according filter arguments.
-		Only GET method is allowed with route '/car'
+    """
+        Gives list of cars according filter arguments.
+        Only GET method is allowed with route '/car'
 
-		Args:
-			available_status (bool) : if True, show cars available for booking
-										and on False, show cars which are booked [Optional]
-			is_pink (bool) : If true, show pink cars else on False, show cars
-									which are not pink. [Optional]
+        Args:
+            available_status (bool) : if True, show cars available for booking
+                                        and on False, show cars which are booked [Optional]
+            is_pink (bool) : If true, show pink cars else on False, show cars
+                                    which are not pink. [Optional]
 
-		Return:
-			List of cars matched with filter arguments
-	"""
+        Return:
+            List of cars matched with filter arguments
+    """
     available_status = request.args.get('available_status')
     is_pink = request.args.get('is_pink')
     if available_status and is_pink:
@@ -98,31 +98,31 @@ def get_cars():
 
 @app.route("/customer", methods=['GET'])
 def get_customers():
-	"""
-		Give list of customers. All customers who booked previously
-		and the ones who booked it currently. 
-		Only GET method is allowed with route '/customer'
+    """
+        Give list of customers. All customers who booked previously
+        and the ones who booked it currently. 
+        Only GET method is allowed with route '/customer'
 
-		Return:
-			List of customers.
-	"""
+        Return:
+            List of customers.
+    """
     customer_list = Customer.query.all()
     return jsonify(dict(result=Serializer.serialize_list(customer_list)))
 
 
 @app.route("/car", methods=['POST'])
 def add_car():
-	"""
-		Insert cars into database.
-		Only POST method is allowed with route '/car'
+    """
+        Insert cars into database.
+        Only POST method is allowed with route '/car'
 
-		Args:
-			latitude (float) : latitude of current location
-			longitude (float) : longitude of current location
-			is_pink (bool) : whether the car is pink, if it is pink then True
-							else, set to False [optional]
+        Args:
+            latitude (float) : latitude of current location
+            longitude (float) : longitude of current location
+            is_pink (bool) : whether the car is pink, if it is pink then True
+                            else, set to False [optional]
 
-	"""
+    """
     response = None
     try:
         params = dict()
@@ -153,15 +153,15 @@ def add_car():
 
 @app.route('/customer/<int:customer_id>/complete', methods=['POST'])
 def finish_journey(customer_id):
-	"""
-		Finish car trip for particular customer.
-		Only POST method is allowed with route /customer/<customer_id>/complete
+    """
+        Finish car trip for particular customer.
+        Only POST method is allowed with route /customer/<customer_id>/complete
 
-		Args:
-			customer_id (int) : unique id of the customer
-			latitude (float) : latitude of current location
-			longitude (float) : longitude of current location
-	"""
+        Args:
+            customer_id (int) : unique id of the customer
+            latitude (float) : latitude of current location
+            longitude (float) : longitude of current location
+    """
     response = None
     try:
         params = dict()
@@ -173,7 +173,7 @@ def finish_journey(customer_id):
         if round(params.get('latitude')) in LAT_LNG_RANGE and round(
                 params.get('longitude')) in LAT_LNG_RANGE:
 
-        	# customer with given customer_id
+            # customer with given customer_id
             booking_customer = Customer.query.filter_by(
                 id=params.get('customer_id')).first()
 
@@ -192,7 +192,7 @@ def finish_journey(customer_id):
             Car.query.filter_by(
                 id=booking_customer.car_id).update(
                     dict(available_status=True, latitude=params.get('latitude'),
-                	        longitude=params.get('longitude')))
+                            longitude=params.get('longitude')))
             db.session.commit()
 
             response = jsonify(dict(result="Journey completed successfully."))
@@ -214,16 +214,16 @@ def finish_journey(customer_id):
 
 @app.route('/customer/book', methods=['POST'])
 def book_car():
-	"""
-		Book car
-		Only POST method is allowed with route /customer/book
+    """
+        Book car
+        Only POST method is allowed with route /customer/book
 
-		Args:
-			latitude (float) : current location (latitude) of customer
-			longitude (float) : current location (longitude) of customer
-			is_pink (bool) : does customer want pink car, true if want else False [Optional]
-			booked_on (DateTime) : booking time [AutoCalculate]
-	"""
+        Args:
+            latitude (float) : current location (latitude) of customer
+            longitude (float) : current location (longitude) of customer
+            is_pink (bool) : does customer want pink car, true if want else False [Optional]
+            booked_on (DateTime) : booking time [AutoCalculate]
+    """
     response = None
     try:
         params = dict()
@@ -235,12 +235,12 @@ def book_car():
         if round(params.get('latitude')) in LAT_LNG_RANGE and round(
                 params.get('longitude')) in LAT_LNG_RANGE:
 
-        	# check for cars as per customer's preference
+            # check for cars as per customer's preference
             available_cars = Car.query.filter_by(
                 is_pink=params.get('is_pink'), available_status=True).all()
 
             if available_cars:
-            	# calculate distance between car's location and customer's location
+                # calculate distance between car's location and customer's location
                 distance = {}
                 for car in available_cars:
                     car_distance = Car.distance_travelled(
@@ -272,3 +272,12 @@ def book_car():
             {'result': "Oops! Something went wrong. Please try again."})
 
     return response
+
+
+@app.errorhandler(404)
+def not_found_error(error):
+    return jsonify(dict(result="Page not found.", status=404))
+
+@app.errorhandler(500)
+def internal_error(error):
+    return jsonify(dict(result="Oops! Something went wrong with server. Please try again", status=500))
