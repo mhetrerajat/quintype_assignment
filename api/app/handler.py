@@ -23,7 +23,7 @@ def get_bool(input_string):
         Return: Boolean
 
         Args:
-            input_string (str) : Any string 
+            input_string (str) : Any string
     """
     if isinstance(input_string, str):
         if input_string.lower() == 'false':
@@ -100,7 +100,7 @@ def get_cars():
 def get_customers():
     """
         Give list of customers. All customers who booked previously
-        and the ones who booked it currently. 
+        and the ones who booked it currently.
         Only GET method is allowed with route '/customer'
 
         Return:
@@ -192,7 +192,7 @@ def finish_journey(customer_id):
             Car.query.filter_by(
                 id=booking_customer.car_id).update(
                     dict(available_status=True, latitude=params.get('latitude'),
-                            longitude=params.get('longitude')))
+                         longitude=params.get('longitude')))
             db.session.commit()
 
             response = jsonify(dict(result="Journey completed successfully."))
@@ -276,8 +276,16 @@ def book_car():
 
 @app.errorhandler(404)
 def not_found_error(error):
-    return jsonify(dict(result="Page not found.", status=404))
+    """
+        Page not found
+        404
+    """
+    return jsonify(dict(result="Page not found.", status=404)), 404
 
 @app.errorhandler(500)
 def internal_error(error):
-    return jsonify(dict(result="Oops! Something went wrong with server. Please try again", status=500))
+    """
+        Internal Server Error
+        500
+    """
+    return jsonify(dict(result="Oops! Something went wrong with server. Please try again", status=500)), 500
