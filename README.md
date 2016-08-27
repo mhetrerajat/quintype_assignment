@@ -27,7 +27,7 @@ python3 run.py
 
 ### Deployment
 - API : [FuberAPI](https://fuberapi.herokuapp.com/)
-- WebApp : [FuberAPP](https://fuberapp.herokuapp.com/)
+- WebApp : [FuberApp](https://fuberapp.herokuapp.com/)
 
 ### Notes
 - Both API and WebApp are implemented in Python with framework called **Flask**.
