@@ -111,7 +111,7 @@ def finish_trip(customer_id):
             'finish_trip.html',
             error=False,
             data=data,
-            url=request.base_url)
+            customer_id=customer_id)
     elif request.method == 'POST':
         try:
             params = {
@@ -119,8 +119,7 @@ def finish_trip(customer_id):
                 'longitude': float(request.form.get('longitude'))
             }
 
-            FINISH_URL = API_BASE_URL + "customer/" + \
-                str(customer_id) + "/complete"
+            FINISH_URL = API_BASE_URL + "customer/" + str(customer_id) + "/complete"
             r = requests.post(FINISH_URL, data=params)
             if r.status_code != 500:
                 data = r.json()
@@ -128,24 +127,24 @@ def finish_trip(customer_id):
                     'index.html',
                     error=False,
                     data=data.get('result'),
-                    url=request.base_url)
+                    customer_id=customer_id)
             else:
                 response = render_template(
                     'finish_trip.html',
                     error="Oops! Server has few issues. Please try again.",
                     data=False,
-                    url=request.base_url)
+                    customer_id=customer_id)
 
         except ValueError as e:
             response = render_template(
                 'finish_trip.html',
                 error="Please provide valid longitude/latitude",
                 data=False,
-                url=request.base_url)
+                customer_id=customer_id)
         except Exception as e:
             response = render_template(
                 'finish_trip.html',
                 error="Oops! Something went wrong. Please try again.",
                 data=False,
-                url=request.base_url)
+                customer_id=customer_id)
     return response
