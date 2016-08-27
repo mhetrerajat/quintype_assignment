@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="col s12 m7">
+   <h3 class="header">Cars</h3>
+   {% if data %}
+	   {% for car in data %}
+			   <div class="card horizontal">
+			      <div class="card-stacked">
+			         <div class="card-content">
+			            <h5>Car {{ car.id }}</h5>
+			            <strong>DETAILS</strong>
+			            <ul>
+			            	<li>
+			            		{% if car.is_pink %}
+			            			<div class="chip pink lighten-1" style="color:#fff;">
+									    Pink Car
+									  </div>
+					            {% endif %}
+			            	</li>
+			            	<li>
+			            		{% if car.available_status %}
+			            			<p><strong>Status :</strong> Available</p>
+			            		{% else %}
+			            			<p><strong>Status :</strong> Booked</p>
+			            		{% endif %}
+			            	</li>
+			            	<li>
+			            		<p><strong>Latitude :</strong> {{ car.latitude }}</p>
+			            	</li>
+			            	<li>
+			            		<p><strong>Longitude :</strong> {{ car.longitude }}</p>
+			            	</li>
+			            </ul>
+			         </div>
+			      </div>
+			     </div>
+	      {% endfor %}
+	{% else %}
+		<div class="card-panel">
+            	<span class="black-text text-darken-2"><strong>No cars are added in database.<strong></span>
+      
+     {% endif %}
+   </div>
+</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Fuber | Car Booking App</title>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
+      <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
+   </head>
+   <body>
+      <header>
+         <nav class="indigo darken-3">
+            <div class="nav-wrapper">
+               <a href="#" class="brand-logo" style="margin-left: 20px;">Fuber</a>
+               <ul id="nav-mobile" class="right hide-on-med-and-down">
+               <li><a href="/">Home</a></li>
+               <li><a href="/cars">Show Cars</a></li>
+               <li><a href="/customers">Show Customers</a></li>
+        <li><a class="waves-effect waves-light btn" href="/">Book a Car</a></li>
+      </ul>
+            </div>
+         </nav>
+      </header>
+      <div id="content">
+        {% block content %}{% endblock %}
+      </div>
+   </body>
+</html>

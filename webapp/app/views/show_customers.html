@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% block content%}
+<div class="col s12 m7">
+   <h3 class="header">Customers</h3>
+   {% if data %}
+	   {% for customer in data %}
+			   <div class="card horizontal">
+			      <div class="card-stacked">
+			         <div class="card-content">
+			            <h5>Customer {{ customer.id }}</h5>
+			            <strong>DETAILS</strong>
+			            <ul>
+			            	<li>
+			            		<p><strong>Car Id : </strong>{{ customer.car_id }}</p>
+			            	</li>
+			            	<li>
+			            		<p><strong>Booked on :</strong> {{ customer.booked_on }}</p>
+			            	</li>
+			            	{% if customer.completed_on %}
+				            	<li>
+				            		<p><strong>Amount :</strong> {{ customer.amount }}</p>
+				            	</li>
+				            	<li>
+				            		<p><strong>Completed on :</strong> {{ customer.completed_on }}</p>
+				            	</li>
+				            {% endif %}
+			            </ul>
+			         </div>
+			         {% if not customer.completed_on %}
+			         <div class="card-action">
+			         		<a class="waves-effect waves-light btn" href="/customer/{{ customer.id }}
+			         		/complete">Complete this trip</a>
+			         </div>
+			         {% endif %}
+			      </div>
+			     </div>
+	      {% endfor %}
+	  {% else %}
+	  <div class="card-panel">
+            	<span class="black-text text-darken-2"><strong>No customer had done booking yet.<strong></span>
+      
+     {% endif %}
+</div>
+{% endblock %}

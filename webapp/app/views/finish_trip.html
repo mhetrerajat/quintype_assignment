@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% block content%}
+	<div class="card-panel">
+	{% if error %}
+	<span class="red-text text-darken-2"><strong>{{ error }}</strong></span>
+        
+            {% endif %}
+            {% if data %}
+            	<span class="black-text text-darken-2"><strong>{{ data }}</strong></span>
+      
+            {% endif %}
+   </div>
+<div class="card horizontal">
+   <div class="card-stacked">
+      <div class="card-content">
+         <div class="row">
+            <form class="col s12" method="post" action="{{ url }}" enctype="multipart/form-data">
+            <h5>Search for Cars</h5>
+            <label>Please provide current location: </label>
+               <div class="row">
+                  <div class="input-field col s6">
+                     <input placeholder="Latitude" name="latitude" id="latitude" type="text" class="validate">
+                  </div>
+                  <div class="input-field col s6">
+                     <input name="longitude" id="longitude" placeholder="Longitude" type="text" class="validate">
+                  </div>
+               </div>
+               <div class="row">
+               <br/>
+               	<button class="waves-effect waves-light btn" type="submit">Finish this trip</button>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock %}
