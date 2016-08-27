@@ -30,6 +30,8 @@ def get_bool(input_string):
             return False
         else:
             return True
+    elif input_string == True:
+        return True
     else:
         return False
 
@@ -126,9 +128,9 @@ def add_car():
     response = None
     try:
         params = dict()
-        params.update({'latitude': request.form.get(['latitude'])})
-        params.update({'longitude': request.form.get(['longitude'])})
-        params.update({'is_pink': get_bool(request.form.get(['is_pink']))})
+        params.update({'latitude': float(request.form.get('latitude'))})
+        params.update({'longitude': float(request.form.get('longitude'))})
+        params.update({'is_pink': get_bool(request.form.get('is_pink'))})
 
         if round(params.get('latitude')) in LAT_LNG_RANGE and round(
                 params.get('longitude')) in LAT_LNG_RANGE:
